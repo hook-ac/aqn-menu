@@ -17,6 +17,7 @@ export const profile = createStore(() => ({
     | Database["public"]["Tables"]["userSettings"]["Insert"][]
     | null,
   lUpdate: Date.now(),
+  selectedProfile: 0,
 }));
 
 async function onLogin() {
@@ -85,7 +86,7 @@ export async function loginWithDiscord() {
       });
       if (!authres.error) {
         profile.setState({ user: authres.data.user });
-        onLogin();
+        await onLogin();
         resolve();
         return;
       }
