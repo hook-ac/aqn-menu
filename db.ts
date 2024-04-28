@@ -6,6 +6,9 @@ export const supabase = createClient(
   supabaseUrl,
   `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvZ2p3dHBmYndiY2h4dGVveGxvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM4MjIyNjUsImV4cCI6MjAyOTM5ODI2NX0.sHJfqpD4AvixbYkbM8eBvgM24i9_aweZyBj3MIZyO6o`
 );
+import { LocalStorage } from "node-localstorage";
+import os from "os";
+const localStorage = new LocalStorage(os.homedir() + "/profiles");
 
 export const profile = createStore(() => ({
   user: null as User | null,
@@ -74,6 +77,20 @@ import express from "express";
 
 export async function loginWithDiscord() {
   return new Promise<void>(async (resolve, reject) => {
+    if (localStorage.getItem("data")) {
+      const query = JSON.parse(localStorage.getItem("data")!);
+      let authres = await supabase.auth.setSession({
+        access_token: query.access_token as string,
+        refresh_token: query.refresh_token as string,
+      });
+      if (!authres.error) {
+        profile.setState({ user: authres.data.user });
+        onLogin();
+        resolve();
+        return;
+      }
+    }
+
     const res = await supabase.auth.signInWithOAuth({
       provider: "discord",
       options: {
@@ -81,6 +98,7 @@ export async function loginWithDiscord() {
         skipBrowserRedirect: true,
       },
     });
+
     const redirectUrl = res.data.url;
     console.log(`Please login at: ${redirectUrl}`);
 
@@ -89,6 +107,7 @@ export async function loginWithDiscord() {
 
     app.get("/login", async (req, res) => {
       if (req.query.access_token) {
+        localStorage.setItem("data", JSON.stringify(req.query));
         let authres = await supabase.auth.setSession({
           access_token: req.query.access_token as string,
           refresh_token: req.query.refresh_token as string,
