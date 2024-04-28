@@ -1,15 +1,23 @@
 import { Dugtrio } from "dugtrio-node";
 import { Interactable } from "dugtrio-node/src/interactable";
 import { createMenu } from "./src/menuBox";
+import { loginWithDiscord, supabase } from "./db";
 
-Dugtrio.init();
+export let window: Interactable;
 
-export const window = new Interactable();
-window.size = Dugtrio.getWindowSize();
-window.draw = (self) => {};
+async function main() {
+  await loginWithDiscord();
+  Dugtrio.init();
 
-createMenu();
-setInterval(() => {
-  window.render();
-  Dugtrio.draw();
-}, 4);
+  window = new Interactable();
+  window.size = Dugtrio.getWindowSize();
+  window.draw = (self) => {};
+
+  createMenu();
+  setInterval(() => {
+    window.render();
+    Dugtrio.draw();
+  }, 4);
+}
+
+main();

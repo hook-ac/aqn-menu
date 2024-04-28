@@ -2,8 +2,10 @@ import { DrawingContext, Dugtrio } from "dugtrio-node";
 import { Interactable } from "dugtrio-node/src/interactable";
 import { window } from "..";
 import { Colors } from "./colors";
+import { profile } from "../db";
 
 export function createMenu() {
+  const userInfo = profile.getState().user;
   const menuBox = new Interactable();
 
   menuBox.draw = (self) => {
@@ -34,10 +36,11 @@ export function createMenu() {
       size: { ...self.size, x: 8 },
     });
 
+    DrawingContext.fontSize({ value: 32 });
     DrawingContext.color(Colors.WHITE);
     DrawingContext.text({
-      position: { x: self.position.x + 30, y: self.position.y + 30 },
-      text: "Some cool feature",
+      position: { x: self.position.x + 40, y: self.position.y + 25 },
+      text: `Welcome ${userInfo?.email}`,
     });
   };
 

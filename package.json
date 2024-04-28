@@ -4,10 +4,16 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "dev": "tsx watch index.ts"
+    "dev": "tsx watch index.ts",
+    "sync": "npx supabase gen types typescript --project-id \"bogjwtpfbwbchxteoxlo\" --schema public > src/supabase.ts"
   },
   "dependencies": {
-    "dugtrio-node": "^1.0.0",
-    "tsx": "^4.7.3"
+    "@supabase/supabase-js": "^2.42.7",
+    "@types/express": "^4.17.21",
+    "dugtrio-node": "1.0.1",
+    "express": "^4.19.2",
+    "supabase": "^1.163.6",
+    "tsx": "^4.7.3",
+    "zustand": "^4.5.2"
   }
 }
