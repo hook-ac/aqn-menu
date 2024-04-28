@@ -1,0 +1,13 @@
+{
+  "name": "aqn-menu",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsx watch index.ts"
+  },
+  "dependencies": {
+    "dugtrio-node": "^1.0.0",
+    "tsx": "^4.7.3"
+  }
+}
