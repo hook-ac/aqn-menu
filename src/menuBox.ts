@@ -62,9 +62,17 @@ export function createMenu() {
     });
     DrawingContext.color(Colors.BLUE);
     DrawingContext.rect({
-      position: { x: self.position.x - 12, y: self.position.y + 128 },
+      position: { x: self.position.x - 18, y: self.position.y + 170 },
       fill: true,
-      size: { y: 100, x: 18 },
+      size: { y: 100, x: 25 },
+    });
+    DrawingContext.rounding({
+      value: 0,
+    });
+    DrawingContext.rect({
+      position: { x: self.position.x - 8, y: self.position.y + 170 },
+      fill: true,
+      size: { y: 100, x: 10 },
     });
 
     DrawingContext.fontAlign({ value: 1 });

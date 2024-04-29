@@ -7,7 +7,7 @@ export let window: Interactable;
 
 async function main() {
   await loginWithDiscord();
-  Dugtrio.init();
+  Dugtrio.init("opengl", "x32");
 
   window = new Interactable();
   window.size = Dugtrio.getWindowSize();
