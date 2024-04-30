@@ -4,7 +4,7 @@ import { onClick } from "dugtrio-node/plugins/onClick";
 import { pin } from "dugtrio-node/plugins/pin";
 import { mouseOver } from "dugtrio-node/plugins/mouseOver";
 import { window } from "..";
-import { Colors } from "./colors";
+import { Colors, TabColors } from "./colors";
 import { profile } from "../db";
 import { FeatureDefinition } from "../types";
 import { createBooleanInteractable } from "./primitives/booleanInteractable";
@@ -159,7 +159,7 @@ function createFeature(parent: Interactable) {
 
     interactable.addPlugin(pin());
     interactable.properties.offset.x = 8;
-    interactable.properties.offset.y = 200 + 50 * index;
+    interactable.properties.offset.y = 190 + 50 * index;
 
     featureInteractable.child(interactable);
     index++;
@@ -183,8 +183,8 @@ function createFeatureButtons(): Interactable[] {
     const button = new Interactable();
     button.size = { x: 70, y: 30 };
     button.draw = (self) => {
-      DrawingContext.rounding({ value: 10 });
-      DrawingContext.color(Colors.BLUE_DIMMED);
+      DrawingContext.rounding({ value: 9 });
+      DrawingContext.color(TabColors[featureIndex]);
       DrawingContext.rect({
         position: self.position,
         fill: true,
@@ -200,13 +200,14 @@ function createFeatureButtons(): Interactable[] {
         onRelease: (self) => {},
       })
     );
+    if (index % 4 == 0 && index !== 0) {
+      row++;
+    }
     button.addPlugin(pin());
     button.properties.offset.x = (index % 4) * (button.size.x + 50) + 30;
     button.properties.offset.y = row * (button.size.y + 10) + 95;
     featureButtonInteractables.push(button);
-    if (index % 4 == 0 && index !== 0) {
-      row++;
-    }
+
     index++;
   }
 

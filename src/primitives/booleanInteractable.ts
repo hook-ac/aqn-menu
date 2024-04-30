@@ -16,12 +16,12 @@ export function createBooleanInteractable(field: BooleanField) {
       interactable.size = { x: self.parent.size.x, y: 40 };
     }
     if (self.properties.mouseOver) {
-      alpha += (0.1 - alpha) * 0.06;
+      alpha += (0.4 - alpha) * 0.06;
     } else {
       alpha += (0 - alpha) * 0.06;
     }
 
-    DrawingContext.color({ ...Colors.WHITE, alpha });
+    DrawingContext.color({ ...Colors.BLUE_DIMMED, alpha });
 
     DrawingContext.rect({
       fill: true,
