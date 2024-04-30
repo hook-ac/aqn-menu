@@ -35,7 +35,7 @@ export function createBooleanInteractable(field: BooleanField) {
       fill: value,
       position: {
         y: self.position.y + self.size.y / 2,
-        x: self.position.x + 50,
+        x: self.position.x + 35,
       },
       radius: 10,
     });
@@ -46,7 +46,7 @@ export function createBooleanInteractable(field: BooleanField) {
     });
     DrawingContext.text({
       position: {
-        x: self.position.x + 75,
+        x: self.position.x + 65,
         y: self.position.y - 15 + self.size.y / 2,
       },
       text: field.name,

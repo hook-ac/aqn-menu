@@ -181,7 +181,7 @@ function createFeatureButtons(): Interactable[] {
   for (const feature of state.features!) {
     const featureIndex = index;
     const button = new Interactable();
-    button.size = { x: 90, y: 30 };
+    button.size = { x: 70, y: 30 };
     button.draw = (self) => {
       DrawingContext.rounding({ value: 10 });
       DrawingContext.color(Colors.BLUE_DIMMED);
@@ -201,8 +201,8 @@ function createFeatureButtons(): Interactable[] {
       })
     );
     button.addPlugin(pin());
-    button.properties.offset.x = (index % 4) * (button.size.x + 30) + 40;
-    button.properties.offset.y = row * (button.size.y + 10) + 100;
+    button.properties.offset.x = (index % 4) * (button.size.x + 50) + 30;
+    button.properties.offset.y = row * (button.size.y + 10) + 95;
     featureButtonInteractables.push(button);
     if (index % 4 == 0 && index !== 0) {
       row++;
