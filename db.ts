@@ -28,7 +28,6 @@ export const profile = createStore(() => ({
 export async function fetchData() {
   const user = (await supabase.auth.getUser()).data.user;
 
-  console.log(user);
   // Retrieve features and user settings
   let { data: features } = await supabase.from("features").select("*");
   let { data: userSettings } = await supabase.from("userSettings").select("*");
