@@ -27,3 +27,9 @@ export function getConfigValue(fieldName: string, defaultValue: any) {
   }
   return (userSettings![0].definition as any)[fieldName];
 }
+
+export function clamp(val: number, min: number, max: number) {
+  if (val < min) return min;
+  if (val > max) return max;
+  return val;
+}

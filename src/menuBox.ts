@@ -8,6 +8,7 @@ import { Colors, TabColors } from "./colors";
 import { profile } from "../db";
 import { FeatureDefinition } from "../types";
 import { createBooleanInteractable } from "./primitives/booleanInteractable";
+import { createSliderInteractable } from "./primitives/sliderInteractable";
 
 export function createMenu() {
   const state = profile.getState();
@@ -150,7 +151,7 @@ function createFeature(parent: Interactable) {
         interactable = new Interactable();
         break;
       case "number":
-        interactable = new Interactable();
+        interactable = createSliderInteractable(field);
         break;
       case "choose":
         interactable = new Interactable();

@@ -13,13 +13,13 @@ export const Colors = {
     red: 3 / 255,
     green: 24 / 255,
     blue: 66 / 255,
-    alpha: 255,
+    alpha: 1,
   },
   BLUE_FOREGROUND: {
-    red: 56 / 255,
-    green: 66 / 255,
-    blue: 84 / 255,
-    alpha: 255,
+    red: 10 / 255,
+    green: 24 / 255,
+    blue: 62 / 255,
+    alpha: 1,
   },
 } as const;
 
