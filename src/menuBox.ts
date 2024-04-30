@@ -6,6 +6,8 @@ import { mouseOver } from "dugtrio-node/plugins/mouseOver";
 import { window } from "..";
 import { Colors } from "./colors";
 import { profile } from "../db";
+import { FeatureDefinition } from "../types";
+import { createBooleanInteractable } from "./primitives/booleanInteractable";
 
 export function createMenu() {
   const state = profile.getState();
@@ -132,6 +134,36 @@ function createFeature(parent: Interactable) {
       text: selectedFeature.name!,
     });
   };
+
+  const definition =
+    selectedFeature.defaultDefinition as any as FeatureDefinition;
+
+  let index = 0;
+  for (const field of definition.fields) {
+    let interactable: Interactable;
+
+    switch (field.type) {
+      case "boolean":
+        interactable = createBooleanInteractable(field);
+        break;
+      case "string":
+        interactable = new Interactable();
+        break;
+      case "number":
+        interactable = new Interactable();
+        break;
+      case "choose":
+        interactable = new Interactable();
+        break;
+    }
+
+    interactable.addPlugin(pin());
+    interactable.properties.offset.x = 8;
+    interactable.properties.offset.y = 200 + 50 * index;
+
+    featureInteractable.child(interactable);
+    index++;
+  }
 
   for (const button of buttons) {
     featureInteractable.child(button);
