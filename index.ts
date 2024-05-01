@@ -1,7 +1,7 @@
 import { DrawingContext, Dugtrio } from "dugtrio-node";
 import { Interactable } from "dugtrio-node/src/interactable";
 import { createMenu } from "./src/menuBox";
-import { fetchData, supabase } from "./db";
+import { fetchData, profile, supabase } from "./db";
 import { loginWithDiscord } from "hook-login";
 import { Colors } from "./src/colors";
 import { readdirSync, readFileSync } from "fs";
@@ -19,7 +19,7 @@ function loadAssets() {
   }
 }
 
-export async function loadMenu() {
+export async function loadMenu(game: "stable" | "lazer") {
   const user = await loginWithDiscord(supabase);
   await fetchData();
 
@@ -30,7 +30,19 @@ export async function loadMenu() {
   if (user?.user_metadata.avatar_url) {
     avatar_base64 = await fetchImageAsBase64(user?.user_metadata.avatar_url);
   }
-  Dugtrio.init("opengl", "x32");
+
+  // Make some variable accessble globally, to be consumable;
+  // TODO: Maybe make another package to manage config separately?
+  global.profile = profile;
+
+  // They have different renderers and arch
+  if (game == "stable") {
+    Dugtrio.init("opengl", "x32");
+  }
+
+  if (game == "lazer") {
+    Dugtrio.init("dx11", "x64");
+  }
 
   window = new Interactable();
   window.size = Dugtrio.getWindowSize();
