@@ -1,6 +1,6 @@
 {
   "name": "aqn-menu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
@@ -14,7 +14,7 @@
     "@types/node-localstorage": "^1.3.3",
     "dugtrio-node": "^1.0.14",
     "express": "^4.19.2",
-    "hook-login": "^1.0.5",
+    "hook-login": "1.0.6",
     "node-localstorage": "^3.0.5",
     "supabase": "^1.163.6",
     "tsx": "^4.7.3",
