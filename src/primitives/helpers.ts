@@ -33,3 +33,12 @@ export function clamp(val: number, min: number, max: number) {
   if (val > max) return max;
   return val;
 }
+
+import { Buffer } from "buffer";
+
+export async function fetchImageAsBase64(url: string): Promise<string> {
+  const response = await fetch(url);
+  const arrayBuffer = await response.arrayBuffer();
+  const base64 = Buffer.from(arrayBuffer).toString("base64");
+  return base64;
+}

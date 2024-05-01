@@ -2,10 +2,11 @@ import { DrawingContext, Dugtrio } from "dugtrio-node";
 import { Interactable } from "dugtrio-node/src/interactable";
 import { createMenu } from "./src/menuBox";
 import { fetchData, supabase } from "./db";
-import { loginGuest, loginWithDiscord } from "hook-login";
-import { Colors, changeColor } from "./src/colors";
+import { loginWithDiscord } from "hook-login";
+import { Colors } from "./src/colors";
 import { readdirSync, readFileSync } from "fs";
 import path from "path";
+import { fetchImageAsBase64 } from "./src/primitives/helpers";
 export let window: Interactable;
 
 function loadAssets() {
@@ -19,14 +20,15 @@ function loadAssets() {
 }
 
 async function main() {
-  const user = await loginGuest(supabase);
+  const user = await loginWithDiscord(supabase);
   await fetchData();
 
-  const avatar_base64 = readFileSync(
+  let avatar_base64 = readFileSync(
     path.join(__dirname, "icons", "guest.png"),
     "base64"
   );
   if (user?.user_metadata.avatar_url) {
+    avatar_base64 = await fetchImageAsBase64(user?.user_metadata.avatar_url);
   }
   Dugtrio.init("opengl", "x32");
 
