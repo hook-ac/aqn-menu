@@ -21,14 +21,14 @@ export function createBooleanInteractable(field: BooleanField) {
       alpha += (0 - alpha) * 0.06;
     }
 
-    DrawingContext.color({ ...Colors.BLUE_DIMMED, alpha });
+    DrawingContext.color({ ...Colors.ACCENT_DIMMED, alpha });
 
     DrawingContext.rect({
       fill: true,
       position: self.position,
       size: self.size,
     });
-    DrawingContext.color(Colors.BLUE);
+    DrawingContext.color(Colors.ACCENT);
     DrawingContext.thickness({ value: 2 });
 
     DrawingContext.circle({

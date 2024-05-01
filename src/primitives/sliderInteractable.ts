@@ -1,9 +1,8 @@
 import { Interactable } from "dugtrio-node/src/interactable";
-import { BooleanField, NumberField, StringField } from "../../types";
+import { NumberField } from "../../types";
 import { DrawingContext } from "dugtrio-node";
 import { mouseOver } from "dugtrio-node/plugins/mouseOver";
 import { Colors } from "../colors";
-import { onClick } from "dugtrio-node/plugins/onClick";
 import { draggable } from "dugtrio-node/plugins/draggable";
 import { clamp, getConfigValue, updateField } from "./helpers";
 
@@ -18,7 +17,7 @@ export function createSliderInteractable(field: NumberField) {
       interactable.size = { x: self.parent.size.x, y: 40 };
     }
 
-    DrawingContext.color(Colors.BLUE_FOREGROUND);
+    DrawingContext.color(Colors.ACCENT_VERY_DIMMED);
     DrawingContext.rect({
       fill: true,
       position: { x: self.position.x + 25, y: self.position.y + 6 },
@@ -67,7 +66,7 @@ export function createSliderInteractable(field: NumberField) {
         updateField(field.name, value);
       }
     }
-    DrawingContext.color(Colors.BLUE);
+    DrawingContext.color(Colors.ACCENT);
     DrawingContext.rect({
       fill: true,
       position: self.position,

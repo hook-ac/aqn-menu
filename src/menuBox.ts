@@ -4,7 +4,7 @@ import { onClick } from "dugtrio-node/plugins/onClick";
 import { pin } from "dugtrio-node/plugins/pin";
 import { mouseOver } from "dugtrio-node/plugins/mouseOver";
 import { window } from "..";
-import { Colors, TabColors } from "./colors";
+import { Colors, TabColors, changeColor, rgbToHsl } from "./colors";
 import { profile } from "../db";
 import { FeatureDefinition } from "../types";
 import { createBooleanInteractable } from "./primitives/booleanInteractable";
@@ -28,14 +28,14 @@ export function createMenu() {
     });
 
     // Top Dimmed Bar
-    DrawingContext.color(Colors.BLUE_DIMMED);
+    DrawingContext.color(Colors.ACCENT_DIMMED);
     DrawingContext.rect({
       position: self.position,
       fill: true,
       size: { ...self.size, y: 80 },
     });
 
-    DrawingContext.color(Colors.BLUE_DIMMED);
+    DrawingContext.color(Colors.ACCENT_DIMMED);
     DrawingContext.rect({
       position: { ...self.position, x: self.position.x + self.size.x - 150 },
       fill: true,
@@ -51,9 +51,17 @@ export function createMenu() {
       fill: true,
       size: { x: 130, y: 130 },
     });
+    DrawingContext.texture({
+      textureId: "user",
+      position: {
+        x: self.position.x + self.size.x - 130 - 10,
+        y: self.position.y + 10,
+      },
+      size: { x: 130, y: 130 },
+    });
 
     // Vertical Bar
-    DrawingContext.color(Colors.BLUE);
+    DrawingContext.color(Colors.ACCENT);
     DrawingContext.rect({
       position: self.position,
       fill: true,
@@ -63,7 +71,7 @@ export function createMenu() {
     DrawingContext.rounding({
       value: 24,
     });
-    DrawingContext.color(Colors.BLUE);
+    DrawingContext.color(Colors.ACCENT);
     DrawingContext.rect({
       position: { x: self.position.x - 18, y: self.position.y + 170 },
       fill: true,
@@ -179,23 +187,59 @@ function createFeatureButtons(): Interactable[] {
 
   let index = 0;
   let row = 0;
-  for (const feature of state.features!) {
+  for (const feature of state.features!.sort(
+    (a, b) => b.priority! - a.priority!
+  )) {
     const featureIndex = index;
     const button = new Interactable();
-    button.size = { x: 70, y: 30 };
+    button.size = { x: 74, y: 30 };
+
+    // Hardcoded (very ui related)
+    let icon = "";
+    switch (feature.name) {
+      case "General":
+        icon = "settings.png";
+        break;
+      case "Aim Assist":
+        icon = "assist.png";
+        break;
+      case "Enlighten":
+        icon = "enlighten.png";
+        break;
+      case "Replay Bot":
+        icon = "player.png";
+        break;
+      case "Relax":
+        icon = "relax.png";
+        break;
+      case "Editor":
+        icon = "editor.png";
+        break;
+    }
+    const tabColor = TabColors[icon ? icon : "misc.png"];
+
     button.draw = (self) => {
       DrawingContext.rounding({ value: 9 });
-      DrawingContext.color(TabColors[featureIndex]);
+      DrawingContext.color(tabColor);
       DrawingContext.rect({
         position: self.position,
         fill: true,
         size: self.size,
       });
+      if (icon) {
+        DrawingContext.texture({
+          textureId: icon,
+          position: { x: self.position.x + 17, y: self.position.y - 5 },
+          size: { x: 40, y: 40 },
+        });
+      }
     };
     button.addPlugin(mouseOver());
     button.addPlugin(
       onClick({
         onPress: (self) => {
+          const hslVal = rgbToHsl(tabColor.red, tabColor.green, tabColor.blue);
+          changeColor(hslVal[0]);
           profile.setState(() => ({ selectedProfile: featureIndex }));
         },
         onRelease: (self) => {},
