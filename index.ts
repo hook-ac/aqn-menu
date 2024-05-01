@@ -19,7 +19,7 @@ function loadAssets() {
   }
 }
 
-async function main() {
+export async function loadMenu() {
   const user = await loginWithDiscord(supabase);
   await fetchData();
 
@@ -63,5 +63,3 @@ async function main() {
     }, 4);
   });
 }
-
-main();
