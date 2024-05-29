@@ -15,8 +15,8 @@ export function createMenu() {
   const menuBox = new Interactable();
 
   menuBox.draw = (self) => {
-    menuBox.size = { x: 650, y: Dugtrio.getWindowSize().y };
-    menuBox.position = { x: Dugtrio.getWindowSize().x - menuBox.size.x, y: 0 };
+    menuBox.size = { x: 650, y: Dugtrio.getDisplaySize().y };
+    menuBox.position = { x: Dugtrio.getDisplaySize().x - menuBox.size.x, y: 0 };
     DrawingContext.fontAlign({ value: 0 });
 
     // Main Bar

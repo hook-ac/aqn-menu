@@ -45,13 +45,13 @@ export async function loadMenu(game: "stable" | "lazer") {
   }
 
   window = new Interactable();
-  window.size = Dugtrio.getWindowSize();
+  window.size = Dugtrio.getDisplaySize();
   window.draw = (self) => {};
 
   createMenu();
   Dugtrio.onReady(() => {
     setInterval(() => {
-      if (!Dugtrio.getWindowSize()?.x) {
+      if (!Dugtrio.getDisplaySize()?.x) {
         loadAssets();
         DrawingContext.loadTexture({
           textureName: "user",
@@ -64,7 +64,7 @@ export async function loadMenu(game: "stable" | "lazer") {
         });
         DrawingContext.color(Colors.ACCENT);
         DrawingContext.rect({
-          position: { x: Dugtrio.getWindowSize().x - 18, y: 170 },
+          position: { x: Dugtrio.getDisplaySize().x - 18, y: 170 },
           fill: true,
           size: { y: 100, x: 25 },
         });
@@ -75,3 +75,4 @@ export async function loadMenu(game: "stable" | "lazer") {
     }, 4);
   });
 }
+loadMenu("lazer");
