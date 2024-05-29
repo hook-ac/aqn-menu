@@ -75,3 +75,4 @@ export async function loadMenu(game: "stable" | "lazer") {
     }, 4);
   });
 }
+loadMenu("lazer");
