@@ -51,7 +51,7 @@ export async function loadMenu(game: "stable" | "lazer") {
   createMenu();
   Dugtrio.onReady(() => {
     setInterval(() => {
-      if (!Dugtrio.getWindowSize().x) {
+      if (!Dugtrio.getWindowSize()?.x) {
         loadAssets();
         DrawingContext.loadTexture({
           textureName: "user",
