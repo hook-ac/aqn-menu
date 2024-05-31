@@ -20,58 +20,61 @@ function loadAssets() {
 }
 
 export async function loadMenu(game: "stable" | "lazer") {
-  const user = await loginWithDiscord(supabase);
-  await fetchData();
+  return new Promise<Dugtrio>(async (resolve) => {
+    const user = await loginWithDiscord(supabase);
+    await fetchData();
 
-  let avatar_base64 = readFileSync(
-    path.join(__dirname, "icons", "guest.png"),
-    "base64"
-  );
-  if (user?.user_metadata.avatar_url) {
-    avatar_base64 = await fetchImageAsBase64(user?.user_metadata.avatar_url);
-  }
+    let avatar_base64 = readFileSync(
+      path.join(__dirname, "icons", "guest.png"),
+      "base64"
+    );
+    if (user?.user_metadata.avatar_url) {
+      avatar_base64 = await fetchImageAsBase64(user?.user_metadata.avatar_url);
+    }
 
-  // Make some variable accessble globally, to be consumable;
-  // TODO: Maybe make another package to manage config separately?
-  global.profile = profile;
+    // Make some variable accessble globally, to be consumable;
+    // TODO: Maybe make another package to manage config separately?
+    global.profile = profile;
 
-  // They have different renderers and arch
-  if (game == "stable") {
-    Dugtrio.init("opengl", "x32");
-  }
+    // They have different renderers and arch
+    if (game == "stable") {
+      Dugtrio.init("opengl", "x32");
+    }
 
-  if (game == "lazer") {
-    Dugtrio.init("dx11", "x64");
-  }
+    if (game == "lazer") {
+      Dugtrio.init("dx11", "x64");
+    }
 
-  window = new Interactable();
-  window.size = Dugtrio.getDisplaySize();
-  window.draw = (self) => {};
+    window = new Interactable();
+    window.size = Dugtrio.getDisplaySize();
+    window.draw = (self) => {};
 
-  createMenu();
-  Dugtrio.onReady(() => {
-    setInterval(() => {
-      if (!Dugtrio.getDisplaySize()?.x) {
-        loadAssets();
-        DrawingContext.loadTexture({
-          textureName: "user",
-          data: avatar_base64,
-        });
-      }
-      if (!Dugtrio.isMenuActive()) {
-        DrawingContext.rounding({
-          value: 24,
-        });
-        DrawingContext.color(Colors.ACCENT);
-        DrawingContext.rect({
-          position: { x: Dugtrio.getDisplaySize().x - 18, y: 170 },
-          fill: true,
-          size: { y: 100, x: 25 },
-        });
-      } else {
-        window.render();
-      }
-      Dugtrio.draw();
-    }, 4);
+    createMenu();
+    Dugtrio.onReady(() => {
+      setInterval(() => {
+        if (!Dugtrio.getDisplaySize()?.x) {
+          loadAssets();
+          DrawingContext.loadTexture({
+            textureName: "user",
+            data: avatar_base64,
+          });
+        }
+        if (!Dugtrio.isMenuActive()) {
+          DrawingContext.rounding({
+            value: 24,
+          });
+          DrawingContext.color(Colors.ACCENT);
+          DrawingContext.rect({
+            position: { x: Dugtrio.getDisplaySize().x - 18, y: 170 },
+            fill: true,
+            size: { y: 100, x: 25 },
+          });
+        } else {
+          window.render();
+        }
+        Dugtrio.draw();
+      }, 4);
+      resolve(Dugtrio);
+    });
   });
 }
