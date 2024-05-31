@@ -20,7 +20,7 @@ function loadAssets() {
 }
 
 export async function loadMenu(game: "stable" | "lazer") {
-  return new Promise<Dugtrio>(async (resolve) => {
+  return new Promise<() => void>(async (resolve) => {
     const user = await loginWithDiscord(supabase);
     await fetchData();
 
@@ -51,7 +51,7 @@ export async function loadMenu(game: "stable" | "lazer") {
 
     createMenu();
     Dugtrio.onReady(() => {
-      setInterval(() => {
+      resolve(() => {
         if (!Dugtrio.getDisplaySize()?.x) {
           loadAssets();
           DrawingContext.loadTexture({
@@ -72,9 +72,7 @@ export async function loadMenu(game: "stable" | "lazer") {
         } else {
           window.render();
         }
-        Dugtrio.draw();
-      }, 4);
-      resolve(Dugtrio);
+      });
     });
   });
 }
