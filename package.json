@@ -4,7 +4,7 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "dev": "tsx watch index.ts",
+    "dev": "tsx watch test.ts",
     "sync": "npx supabase gen types typescript --project-id \"bogjwtpfbwbchxteoxlo\" --schema public > src/supabase.ts"
   },
   "dependencies": {

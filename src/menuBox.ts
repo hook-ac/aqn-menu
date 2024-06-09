@@ -187,9 +187,7 @@ function createFeatureButtons(): Interactable[] {
 
   let index = 0;
   let row = 0;
-  for (const feature of state.features!.sort(
-    (a, b) => b.priority! - a.priority!
-  )) {
+  for (const feature of state.features!) {
     const featureIndex = index;
     const button = new Interactable();
     button.size = { x: 74, y: 30 };

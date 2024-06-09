@@ -5,11 +5,14 @@ import { mouseOver } from "dugtrio-node/plugins/mouseOver";
 import { Colors } from "../colors";
 import { draggable } from "dugtrio-node/plugins/draggable";
 import { clamp, getConfigValue, updateField } from "./helpers";
+import { onClick } from "dugtrio-node/plugins/onClick";
 
 export function createSliderInteractable(field: NumberField) {
   const interactable = new Interactable();
   const grabber = new Interactable();
-  let alpha = 0;
+
+  const add = new Interactable();
+  const subtract = new Interactable();
 
   let value = getConfigValue(field.name, field.value);
   interactable.draw = (self) => {
@@ -76,6 +79,83 @@ export function createSliderInteractable(field: NumberField) {
 
   grabber.addPlugin(mouseOver());
   grabber.addPlugin(draggable());
+  add.addPlugin(mouseOver());
+  subtract.addPlugin(mouseOver());
+
+  add.addPlugin(
+    onClick({
+      onPress: (self) => {
+        value = clamp(value + 1, field.min, field.max);
+      },
+      onRelease: (self) => {},
+    })
+  );
+
+  subtract.addPlugin(
+    onClick({
+      onPress: (self) => {
+        value = clamp(value - 1, field.min, field.max);
+      },
+      onRelease: (self) => {},
+    })
+  );
+
+  add.draw = (self) => {
+    self.position.x = interactable.position.x + interactable.size.x / 2 + 155;
+    self.position.y = interactable.position.y + 8;
+    self.size = { x: 25, y: 25 };
+    DrawingContext.color(Colors.ACCENT_VERY_DIMMED);
+    DrawingContext.rounding({
+      value: 4,
+    });
+    DrawingContext.rect({
+      fill: true,
+      position: self.position,
+      size: self.size,
+    });
+    DrawingContext.color(Colors.ACCENT);
+
+    DrawingContext.fontAlign({
+      value: 2,
+    });
+    DrawingContext.text({
+      position: {
+        x: self.position.x + 13,
+        y: self.position.y - 2,
+      },
+      text: "+",
+    });
+  };
+
+  subtract.draw = (self) => {
+    self.position.x = interactable.position.x + interactable.size.x / 2 + 120;
+    self.position.y = interactable.position.y + 8;
+    self.size = { x: 25, y: 25 };
+    DrawingContext.color(Colors.ACCENT_VERY_DIMMED);
+    DrawingContext.rounding({
+      value: 4,
+    });
+    DrawingContext.rect({
+      fill: true,
+      position: self.position,
+      size: self.size,
+    });
+    DrawingContext.color(Colors.ACCENT);
+
+    DrawingContext.fontAlign({
+      value: 2,
+    });
+    DrawingContext.text({
+      position: {
+        x: self.position.x + 13,
+        y: self.position.y - 2,
+      },
+      text: "-",
+    });
+  };
+
   interactable.child(grabber);
+  interactable.child(add);
+  interactable.child(subtract);
   return interactable;
 }

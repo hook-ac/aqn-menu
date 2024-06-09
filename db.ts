@@ -73,7 +73,7 @@ export async function fetchData() {
   profile.setState((prev) => ({
     loading: false,
     user: user,
-    features,
+    features: features!.sort((a, b) => b.priority! - a.priority!),
     userSettings: prev.userSettings ? prev.userSettings : userSettings,
     lUpdate: Date.now(),
   }));
